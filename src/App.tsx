@@ -273,7 +273,7 @@ const App: React.FC = () => {
                   onClick={() => scrollToSection('about')}
                   className="px-8 py-4 border-2 border-pink-300 text-pink-600 rounded-full font-semibold hover:bg-pink-50 transition-all duration-300"
                 >
-                  Learn More
+                  Know More
                 </button>
               </div>
 
