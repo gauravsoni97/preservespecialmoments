@@ -284,6 +284,62 @@ const AppContent: React.FC = () => {
     navigate(`/product/${product.id}`, { state: product });
   };
 
+  const [customOrder, setCustomOrder] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    projectType: 'Wedding Keepsake',
+    size: '',
+    colorPreferences: '',
+    materialPreferences: '',
+    specialInstructions: '',
+    inspirationImages: ''
+  });
+
+  const handleCustomOrderChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setCustomOrder(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleCustomOrderSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Create WhatsApp message with all form details
+    const message = `New Custom Order Request:
+    
+Name: ${customOrder.name}
+Email: ${customOrder.email}
+Phone: ${customOrder.phone}
+Project Type: ${customOrder.projectType}
+Size: ${customOrder.size}
+Color Preferences: ${customOrder.colorPreferences}
+Material Preferences: ${customOrder.materialPreferences}
+Special Instructions: ${customOrder.specialInstructions}
+Inspiration Images: ${customOrder.inspirationImages}`;
+    
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Open WhatsApp with the message (replace with your actual WhatsApp number)
+    window.open(`https://wa.me/1234567890?text=${encodedMessage}`, '_blank');
+    
+    // Reset form
+    setCustomOrder({
+      name: '',
+      email: '',
+      phone: '',
+      projectType: 'Wedding Keepsake',
+      size: '',
+      colorPreferences: '',
+      materialPreferences: '',
+      specialInstructions: '',
+      inspirationImages: ''
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100">
       {/* Navigation */}
@@ -785,43 +841,122 @@ const AppContent: React.FC = () => {
 
                   <div className="bg-white rounded-3xl p-8 shadow-lg">
                     <h3 className="text-2xl font-semibold text-gray-800 mb-6">Request Custom Order</h3>
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={handleCustomOrderSubmit}>
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Name *</label>
                           <input
                             type="text"
+                            name="name"
+                            value={customOrder.name}
+                            onChange={handleCustomOrderChange}
                             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300"
                             placeholder="Your name"
+                            required
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
                           <input
                             type="email"
+                            name="email"
+                            value={customOrder.email}
+                            onChange={handleCustomOrderChange}
                             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300"
                             placeholder="your@email.com"
+                            required
                           />
                         </div>
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Project Type</label>
-                        <select className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300">
-                          <option>Wedding Keepsake</option>
-                          <option>Memorial Piece</option>
-                          <option>Home Decor</option>
-                          <option>Jewelry</option>
-                          <option>Other</option>
-                        </select>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={customOrder.phone}
+                          onChange={handleCustomOrderChange}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300"
+                          placeholder="Your phone number"
+                          required
+                        />
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Project Type *</label>
+                          <select 
+                            name="projectType"
+                            value={customOrder.projectType}
+                            onChange={handleCustomOrderChange}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300"
+                            required
+                          >
+                            <option value="Wedding Keepsake">Wedding Keepsake</option>
+                            <option value="Memorial Piece">Memorial Piece</option>
+                            <option value="Home Decor">Home Decor</option>
+                            <option value="Jewelry">Jewelry</option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Size</label>
+                          <input
+                            type="text"
+                            name="size"
+                            value={customOrder.size}
+                            onChange={handleCustomOrderChange}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300"
+                            placeholder="e.g., 6x6 inches, Small/Medium/Large"
+                          />
+                        </div>
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Project Details</label>
-                        <textarea
-                          rows={4}
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Color Preferences</label>
+                        <input
+                          type="text"
+                          name="colorPreferences"
+                          value={customOrder.colorPreferences}
+                          onChange={handleCustomOrderChange}
                           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300"
-                          placeholder="Tell us about your vision, materials you'd like to include, size preferences, etc."
+                          placeholder="e.g., Pastel colors, Bright blues and greens"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Material Preferences</label>
+                        <input
+                          type="text"
+                          name="materialPreferences"
+                          value={customOrder.materialPreferences}
+                          onChange={handleCustomOrderChange}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300"
+                          placeholder="e.g., Real flowers, Glitter, Pearls"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Special Instructions</label>
+                        <textarea
+                          name="specialInstructions"
+                          value={customOrder.specialInstructions}
+                          onChange={handleCustomOrderChange}
+                          rows={3}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300"
+                          placeholder="Any special requests or details about your vision"
+                        ></textarea>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Inspiration Images/Links</label>
+                        <textarea
+                          name="inspirationImages"
+                          value={customOrder.inspirationImages}
+                          onChange={handleCustomOrderChange}
+                          rows={2}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300"
+                          placeholder="Links to images or descriptions that inspire your vision"
                         ></textarea>
                       </div>
 
@@ -829,7 +964,7 @@ const AppContent: React.FC = () => {
                         type="submit"
                         className="w-full px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-semibold hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                       >
-                        Send Request
+                        Send Request via WhatsApp
                       </button>
                     </form>
                   </div>
