@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ShoppingCart,
   Heart,
@@ -24,7 +24,7 @@ import {
   Plus,
   Minus
 } from 'lucide-react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import ProductDetailPage from './components/ProductDetailPage';
 import useLenisScroll from './hooks/useLenisScroll';
 import { motion } from 'framer-motion';
@@ -58,12 +58,55 @@ interface Review {
 
 const AppContent: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+  const [addedToCart, setAddedToCart] = useState<number[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   // Initialize Lenis smooth scrolling
   useLenisScroll();
+
+  // Track active section on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['home', 'products', 'reviews', 'about', 'contact'];
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const offsetTop = element.offsetTop;
+          const height = element.offsetHeight;
+          
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + height) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Scroll to section when navigating from product detail page
+  useEffect(() => {
+    if (location.state && location.state.scrollTo) {
+      // Set active section to the target section
+      setActiveSection(location.state.scrollTo);
+      // Small delay to ensure the page has loaded
+      setTimeout(() => {
+        scrollToSection(location.state.scrollTo);
+      }, 100);
+    } else if (location.pathname === '/') {
+      // When navigating to home page, set active section to 'home'
+      setActiveSection('home');
+    }
+  }, [location]);
 
   const products: Product[] = [
     {
@@ -140,6 +183,14 @@ const AppContent: React.FC = () => {
     }
   ];
 
+  // Get unique categories
+  const categories = ['All', ...new Set(products.map(product => product.category))];
+  
+  // Filter products by category
+  const filteredProducts = selectedCategory === 'All' 
+    ? products 
+    : products.filter(product => product.category === selectedCategory);
+
   const reviews: Review[] = [
     {
       id: 1,
@@ -187,6 +238,11 @@ const AppContent: React.FC = () => {
       }
       return [...prevCart, { ...product, quantity: 1 }];
     });
+    
+    // Track that this product has been added to cart
+    if (!addedToCart.includes(product.id)) {
+      setAddedToCart(prev => [...prev, product.id]);
+    }
   };
 
   const updateQuantity = (id: number, quantity: number) => {
@@ -210,9 +266,17 @@ const AppContent: React.FC = () => {
   };
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    // If we're on the product detail page, navigate to home first
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: sectionId } });
+    } else {
+      // If we're already on the home page, scroll to the section
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        // Set the active section immediately
+        setActiveSection(sectionId);
+      }
     }
   };
 
@@ -228,17 +292,60 @@ const AppContent: React.FC = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
               <Sparkles className="w-8 h-8 text-pink-500" />
-              <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-rose-500 bg-clip-text text-transparent">
+              <button 
+                onClick={() => scrollToSection('home')}
+                className="text-xl font-bold bg-gradient-to-r from-pink-600 to-rose-500 bg-clip-text text-transparent"
+              >
                 Preserve Special Moments
-              </span>
+              </button>
             </div>
 
             <div className="hidden md:flex items-center space-x-8">
-              <button onClick={() => scrollToSection('home')} className="text-gray-700 hover:text-pink-600 transition-colors">Home</button>
-              <button onClick={() => scrollToSection('products')} className="text-gray-700 hover:text-pink-600 transition-colors">Products</button>
-              <button onClick={() => scrollToSection('reviews')} className="text-gray-700 hover:text-pink-600 transition-colors">Reviews</button>
-              <button onClick={() => scrollToSection('about')} className="text-gray-700 hover:text-pink-600 transition-colors">About</button>
-              <button onClick={() => scrollToSection('contact')} className="text-gray-700 hover:text-pink-600 transition-colors">Contact</button>
+              <button 
+                onClick={() => scrollToSection('home')} 
+                className={`transition-colors ${activeSection === 'home' ? 'text-pink-600 font-semibold' : 'text-gray-700 hover:text-pink-600'}`}
+              >
+                Home
+                {activeSection === 'home' && (
+                  <div className="h-0.5 bg-pink-500 rounded-full mt-1"></div>
+                )}
+              </button>
+              <button 
+                onClick={() => scrollToSection('products')} 
+                className={`transition-colors ${activeSection === 'products' ? 'text-pink-600 font-semibold' : 'text-gray-700 hover:text-pink-600'}`}
+              >
+                Products
+                {activeSection === 'products' && (
+                  <div className="h-0.5 bg-pink-500 rounded-full mt-1"></div>
+                )}
+              </button>
+              <button 
+                onClick={() => scrollToSection('reviews')} 
+                className={`transition-colors ${activeSection === 'reviews' ? 'text-pink-600 font-semibold' : 'text-gray-700 hover:text-pink-600'}`}
+              >
+                Reviews
+                {activeSection === 'reviews' && (
+                  <div className="h-0.5 bg-pink-500 rounded-full mt-1"></div>
+                )}
+              </button>
+              <button 
+                onClick={() => scrollToSection('about')} 
+                className={`transition-colors ${activeSection === 'about' ? 'text-pink-600 font-semibold' : 'text-gray-700 hover:text-pink-600'}`}
+              >
+                About
+                {activeSection === 'about' && (
+                  <div className="h-0.5 bg-pink-500 rounded-full mt-1"></div>
+                )}
+              </button>
+              <button 
+                onClick={() => scrollToSection('contact')} 
+                className={`transition-colors ${activeSection === 'contact' ? 'text-pink-600 font-semibold' : 'text-gray-700 hover:text-pink-600'}`}
+              >
+                Contact
+                {activeSection === 'contact' && (
+                  <div className="h-0.5 bg-pink-500 rounded-full mt-1"></div>
+                )}
+              </button>
             </div>
 
             <button
@@ -383,8 +490,25 @@ const AppContent: React.FC = () => {
                   </p>
                 </div>
 
+                {/* Category Filters */}
+                <div className="flex flex-wrap justify-center gap-4 mb-12">
+                  {categories.map(category => (
+                    <button
+                      key={category}
+                      onClick={() => setSelectedCategory(category)}
+                      className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
+                        selectedCategory === category
+                          ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg'
+                          : 'bg-white text-gray-700 hover:bg-pink-50 border border-pink-200'
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
+
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {products.map((product) => (
+                  {filteredProducts.map((product) => (
                     <motion.div 
                       key={product.id} 
                       whileHover={{ y: -10 }}
@@ -440,9 +564,14 @@ const AppContent: React.FC = () => {
                               e.stopPropagation();
                               addToCart(product);
                             }}
-                            className="px-6 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-semibold hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
+                            className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 ${
+                              cart.some(item => item.id === product.id)
+                                ? 'bg-green-500 text-white cursor-default'
+                                : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600'
+                            }`}
+                            disabled={cart.some(item => item.id === product.id)}
                           >
-                            Add to Cart
+                            {cart.some(item => item.id === product.id) ? 'Added to Cart' : 'Add to Cart'}
                           </button>
                         </div>
                       </div>
