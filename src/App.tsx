@@ -30,6 +30,8 @@ import useLenisScroll from './hooks/useLenisScroll';
 import { motion } from 'framer-motion';
 import { QRCodeSVG } from 'qrcode.react';
 
+import heroImg from "./assets/images/hero/hero.jpg"
+
 interface Product {
   id: number;
   name: string;
@@ -434,11 +436,7 @@ Inspiration Images: ${customOrder.inspirationImages}`;
                   <div className="space-y-8">
                     <div className="space-y-4">
                       <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
-                        <span className="bg-gradient-to-r from-pink-600 via-rose-500 to-pink-700 bg-clip-text text-transparent">
-                          Preserve Your
-                        </span>
-                        <br />
-                        <span className="text-gray-800">Special Moments</span>
+                          Preserve Special Moments
                       </h1>
                       <p className="text-xl text-gray-600 leading-relaxed">
                         Transform your cherished memories into stunning handcrafted resin art pieces.
@@ -457,21 +455,21 @@ Inspiration Images: ${customOrder.inspirationImages}`;
                         onClick={() => scrollToSection('about')}
                         className="px-8 py-4 border-2 border-pink-300 text-pink-600 rounded-full font-semibold hover:bg-pink-50 transition-all duration-300"
                       >
-                        Know More
+                        Learn More
                       </button>
                     </div>
 
                     <div className="flex items-center space-x-8 pt-4">
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-pink-600">500+</div>
+                        <div className="text-2xl font-bold text-pink-600">70+</div>
                         <div className="text-sm text-gray-600">Happy Customers</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-pink-600">1000+</div>
+                        <div className="text-2xl font-bold text-pink-600">100+</div>
                         <div className="text-sm text-gray-600">Pieces Created</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-pink-600">4.9★</div>
+                        <div className="text-2xl font-bold text-pink-600">4.7★</div>
                         <div className="text-sm text-gray-600">Average Rating</div>
                       </div>
                     </div>
@@ -480,7 +478,7 @@ Inspiration Images: ${customOrder.inspirationImages}`;
                   <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-rose-400 rounded-3xl transform rotate-6 opacity-20"></div>
                     <img
-                      src="https://images.pexels.com/photos/6195125/pexels-photo-6195125.jpeg?auto=compress&cs=tinysrgb&w=600"
+                      src={heroImg}
                       alt="Beautiful resin art piece"
                       className="relative rounded-3xl shadow-2xl w-full h-96 object-cover"
                     />
