@@ -69,45 +69,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ cart, setCart, se
   // Check if product is already in cart
   const isProductInCart = cart.some(item => item.id === product?.id);
 
-  // Related products (for "Explore More" section)
-  const relatedProducts: Product[] = [
-    {
-      id: 7,
-      name: "Personalized Photo Frame",
-      price: 65,
-      image: "https://images.pexels.com/photos/6195132/pexels-photo-6195132.jpeg?auto=compress&cs=tinysrgb&w=500",
-      category: "Home Decor",
-      description: "Custom photo frame with preserved flowers",
-      materials: ["Epoxy Resin", "Dried Flowers", "Wood Frame"],
-      customizable: true,
-      rating: 4.8,
-      reviews: 21
-    },
-    {
-      id: 8,
-      name: "Baby Handprint Keepsake",
-      price: 75,
-      image: "https://images.pexels.com/photos/6195133/pexels-photo-6195133.jpeg?auto=compress&cs=tinysrgb&w=500",
-      category: "Memorial",
-      description: "Preserve your baby's handprint in beautiful resin",
-      materials: ["Epoxy Resin", "Baby Prints", "Pearl Powder"],
-      customizable: true,
-      rating: 4.9,
-      reviews: 35
-    },
-    {
-      id: 9,
-      name: "Nature Inspired Coaster Set",
-      price: 40,
-      image: "https://images.pexels.com/photos/6195134/pexels-photo-6195134.jpeg?auto=compress&cs=tinysrgb&w=500",
-      category: "Home Decor",
-      description: "Set of 4 coasters with natural elements",
-      materials: ["Epoxy Resin", "Pressed Flowers", "Natural Stones"],
-      customizable: false,
-      rating: 4.7,
-      reviews: 19
-    }
-  ];
 
   useEffect(() => {
     if (product) {
@@ -338,62 +299,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ cart, setCart, se
                 {isProductInCart ? 'Added to Cart' : 'Add to Cart'}
               </button>
             </div>
-          </div>
-        </div>
-
-        {/* Explore More Section */}
-        <div className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8">Explore More</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {relatedProducts.map((relatedProduct) => (
-              <motion.div 
-                key={relatedProduct.id}
-                whileHover={{ y: -10 }}
-                className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer"
-                onClick={() => {
-                  navigate(`/product/${relatedProduct.id}`, { state: relatedProduct });
-                }}
-              >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={relatedProduct.image}
-                    alt={relatedProduct.name}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-pink-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                      {relatedProduct.category}
-                    </span>
-                  </div>
-                  {relatedProduct.customizable && (
-                    <div className="absolute top-4 right-4">
-                      <span className="bg-yellow-400 text-pink-800 px-3 py-1 rounded-full text-xs font-semibold">
-                        Customizable
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-xl font-semibold text-gray-800">{relatedProduct.name}</h3>
-                    <div className="flex items-center space-x-1">
-                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                      <span className="text-sm text-gray-600">{relatedProduct.rating}</span>
-                    </div>
-                  </div>
-
-                  <p className="text-gray-600 mb-4 text-sm leading-relaxed">{relatedProduct.description}</p>
-
-                  <div className="flex items-center justify-between">
-                    <div className="text-xl font-bold text-pink-600">₹{relatedProduct.price * 83}</div>
-                    <button className="px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full text-sm font-semibold hover:from-pink-600 hover:to-rose-600 transition-all duration-300">
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
           </div>
         </div>
       </div>

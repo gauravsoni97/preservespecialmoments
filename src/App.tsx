@@ -15,6 +15,12 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Cart from './components/Cart';
 
+import namePlatesThumbnail from './assets/images/products/nameplate/IMG-20250727-WA0026.jpg';
+import bowlThumbnail from './assets/images/products/bowls/IMG-20250830-WA0059.jpg';
+import bracletteThumbnail from './assets/images/products/braclette/IMG-20250727-WA0072.jpg';
+import clutchThumbnail from './assets/images/products/clutch/IMG-20250727-WA0066.jpg';
+import keychainThumbnail from './assets/images/products/keychain/IMG-20250727-WA0041.jpg';
+import banglesThumbnail from './assets/images/products/bangles/IMG-20250830-WA0010.jpg';
 interface Product {
   id: number;
   name: string;
@@ -96,10 +102,10 @@ const AppContent: React.FC = () => {
   const products: Product[] = [
     {
       id: 1,
-      name: "Memorial Rose Coaster Set",
+      name: "Bangles",
       price: 45,
-      image: "https://images.pexels.com/photos/6195125/pexels-photo-6195125.jpeg?auto=compress&cs=tinysrgb&w=500",
-      category: "Memorial",
+      image: banglesThumbnail,
+      category: "Bangles",
       description: "Preserve precious memories with dried flowers in crystal-clear resin",
       materials: ["Epoxy Resin", "Dried Roses", "Gold Flakes"],
       customizable: true,
@@ -108,10 +114,10 @@ const AppContent: React.FC = () => {
     },
     {
       id: 2,
-      name: "Ocean Wave Jewelry Dish",
+      name: "Bowls",
       price: 35,
-      image: "https://images.pexels.com/photos/6195126/pexels-photo-6195126.jpeg?auto=compress&cs=tinysrgb&w=500",
-      category: "Home Decor",
+      image: bowlThumbnail,
+      category: "Bowls",
       description: "Beautiful ocean-inspired resin dish perfect for jewelry storage",
       materials: ["Epoxy Resin", "Blue Pigments", "Pearl Powder"],
       customizable: false,
@@ -120,10 +126,10 @@ const AppContent: React.FC = () => {
     },
     {
       id: 3,
-      name: "Custom Wedding Keepsake",
+      name: "Braclette",
       price: 85,
-      image: "https://images.pexels.com/photos/6195127/pexels-photo-6195127.jpeg?auto=compress&cs=tinysrgb&w=500",
-      category: "Wedding",
+      image: bracletteThumbnail,
+      category: "Braclette",
       description: "Preserve your wedding flowers and memories in a stunning resin piece",
       materials: ["Epoxy Resin", "Wedding Flowers", "Gold Leaf"],
       customizable: true,
@@ -132,10 +138,10 @@ const AppContent: React.FC = () => {
     },
     {
       id: 4,
-      name: "Galaxy Bookmark Set",
+      name: "Clutch",
       price: 25,
-      image: "https://images.pexels.com/photos/6195128/pexels-photo-6195128.jpeg?auto=compress&cs=tinysrgb&w=500",
-      category: "Accessories",
+      image: clutchThumbnail,
+      category: "Clutch",
       description: "Cosmic-inspired bookmarks with glitter and stars",
       materials: ["Epoxy Resin", "Glitter", "Star Confetti"],
       customizable: false,
@@ -144,10 +150,10 @@ const AppContent: React.FC = () => {
     },
     {
       id: 5,
-      name: "Pet Memorial Pendant",
+      name: "Key Chains",
       price: 55,
-      image: "https://images.pexels.com/photos/6195129/pexels-photo-6195129.jpeg?auto=compress&cs=tinysrgb&w=500",
-      category: "Memorial",
+      image: keychainThumbnail ,
+      category: "KeyChains",
       description: "Honor your beloved pet with a custom resin pendant",
       materials: ["Epoxy Resin", "Pet Hair/Ashes", "Silver Chain"],
       customizable: true,
@@ -156,10 +162,10 @@ const AppContent: React.FC = () => {
     },
     {
       id: 6,
-      name: "Floral Wall Art Panel",
+      name: "Name Plates",
       price: 120,
-      image: "https://images.pexels.com/photos/6195130/pexels-photo-6195130.jpeg?auto=compress&cs=tinysrgb&w=500",
-      category: "Wall Art",
+      image: namePlatesThumbnail,
+      category: "NamePlates",
       description: "Large decorative panel with preserved flowers and artistic design",
       materials: ["Epoxy Resin", "Mixed Flowers", "Wood Frame"],
       customizable: true,
