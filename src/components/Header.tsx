@@ -76,17 +76,20 @@ const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          <button
-            onClick={() => setIsCartOpen(true)}
-            className="relative p-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-lg"
-          >
-            <ShoppingCart className="w-5 h-5" />
-            {getTotalItems() > 0 && (
-              <span className="absolute -top-2 -right-2 bg-yellow-400 text-pink-800 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                {getTotalItems()}
-              </span>
-            )}
-          </button>
+          {/* Cart button hidden since we're not using cart functionality */}
+          <div className="hidden">
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative p-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-lg"
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-yellow-400 text-pink-800 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                  {getTotalItems()}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </nav>

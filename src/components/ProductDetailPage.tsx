@@ -37,8 +37,18 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ cart, setCart, se
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false); // For double-tap zoom
   const [lastTap, setLastTap] = useState(0); // For double-tap detection
-  const [quantity, setQuantity] = useState(1);
   const [isWishlist, setIsWishlist] = useState(false);
+  
+  // Custom order form state
+  const [customOrder, setCustomOrder] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    productName: product?.name || '',
+    size: '',
+    material: '',
+    specialInstructions: ''
+  });
   
   // Create array of all product images
   const productImages = [
@@ -69,10 +79,13 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ cart, setCart, se
   // Check if product is already in cart
   const isProductInCart = cart.some(item => item.id === product?.id);
 
-
   useEffect(() => {
     if (product) {
       setSelectedImage(product.image);
+      setCustomOrder(prev => ({
+        ...prev,
+        productName: product.name
+      }));
     }
   }, [product]);
 
@@ -116,26 +129,47 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ cart, setCart, se
     }
   };
 
-  const addToCart = () => {
-    if (!product) return;
-    
-    setCart(prevCart => {
-      const existingItem = prevCart.find(item => item.id === product.id);
-      if (existingItem) {
-        return prevCart.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-      return [...prevCart, { ...product, quantity }];
-    });
+  const handleCustomOrderChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setCustomOrder(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  const updateQuantity = (value: number) => {
-    if (quantity + value > 0) {
-      setQuantity(quantity + value);
-    }
+  const handleCustomOrderSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Create WhatsApp message with all form details
+    const message = `New Custom Order Request:
+    
+Product: ${customOrder.productName}
+Name: ${customOrder.name}
+Email: ${customOrder.email}
+Phone: ${customOrder.phone}
+Size: ${customOrder.size}
+Material: ${customOrder.material}
+Special Instructions: ${customOrder.specialInstructions}`;
+    
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Open WhatsApp with the message (replace with your actual WhatsApp business number)
+    window.open(`https://wa.me/1234567890?text=${encodedMessage}`, '_blank');
+    
+    // Reset form
+    setCustomOrder({
+      name: '',
+      email: '',
+      phone: '',
+      productName: product?.name || '',
+      size: '',
+      material: '',
+      specialInstructions: ''
+    });
+    
+    // Show success message
+    alert('Your custom order request has been sent! We will contact you shortly.');
   };
 
   const getTotalItems = () => {
@@ -263,41 +297,104 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ cart, setCart, se
               </div>
             </div>
 
-            {/* Quantity Selector */}
-            <div className="flex items-center mb-8">
-              <span className="text-gray-700 mr-4">Quantity:</span>
-              <div className="flex items-center border border-gray-300 rounded-full">
-                <button 
-                  onClick={() => updateQuantity(-1)}
-                  className="p-2 text-gray-600 hover:text-pink-600 transition-colors"
-                  disabled={quantity <= 1}
+            {/* Custom Order Form */}
+            <div className="bg-white rounded-2xl p-6 shadow-lg mt-8">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Customize This Product</h3>
+              <p className="text-gray-600 mb-6">Fill out the form below to request a custom version of this product.</p>
+              
+              <form onSubmit={handleCustomOrderSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={customOrder.name}
+                      onChange={handleCustomOrderChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      placeholder="Your name"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={customOrder.email}
+                      onChange={handleCustomOrderChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      placeholder="your@email.com"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={customOrder.phone}
+                    onChange={handleCustomOrderChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    placeholder="Your phone number"
+                    required
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Size</label>
+                    <select
+                      name="size"
+                      value={customOrder.size}
+                      onChange={handleCustomOrderChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    >
+                      <option value="">Select Size</option>
+                      <option value="Small">Small</option>
+                      <option value="Medium">Medium</option>
+                      <option value="Large">Large</option>
+                      <option value="Extra Large">Extra Large</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Material</label>
+                    <select
+                      name="material"
+                      value={customOrder.material}
+                      onChange={handleCustomOrderChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    >
+                      <option value="">Select Material</option>
+                      {product.materials.map((material, index) => (
+                        <option key={index} value={material}>{material}</option>
+                      ))}
+                      <option value="Other">Other (Specify in instructions)</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Special Instructions</label>
+                  <textarea
+                    name="specialInstructions"
+                    value={customOrder.specialInstructions}
+                    onChange={handleCustomOrderChange}
+                    rows={3}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    placeholder="Any special requests or details about your vision"
+                  ></textarea>
+                </div>
+                
+                <button
+                  type="submit"
+                  className="w-full px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-lg font-semibold hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
-                  <Minus className="w-4 h-4" />
+                  Send Custom Order Request via WhatsApp
                 </button>
-                <span className="px-4 py-2 font-semibold">{quantity}</span>
-                <button 
-                  onClick={() => updateQuantity(1)}
-                  className="p-2 text-gray-600 hover:text-pink-600 transition-colors"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={addToCart}
-                className={`flex-1 px-6 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${
-                  isProductInCart
-                    ? 'bg-green-500 text-white cursor-default'
-                    : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600'
-                }`}
-                disabled={isProductInCart}
-              >
-                <ShoppingCart className="w-5 h-5 mr-2 inline" />
-                {isProductInCart ? 'Added to Cart' : 'Add to Cart'}
-              </button>
+              </form>
             </div>
           </div>
         </div>

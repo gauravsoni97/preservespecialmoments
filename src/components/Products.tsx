@@ -83,57 +83,20 @@ const Products: React.FC<ProductsProps> = ({
                   alt={product.name}
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute top-4 left-4">
-                  <span className="bg-pink-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                    {product.category}
-                  </span>
-                </div>
-                {product.customizable && (
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-yellow-400 text-pink-800 px-3 py-1 rounded-full text-xs font-semibold">
-                      Customizable
-                    </span>
-                  </div>
-                )}
+           
+              
               </div>
 
               <div className="p-6">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-xl font-semibold text-gray-800">{product.name}</h3>
-                  <div className="flex items-center space-x-1">
-                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                    <span className="text-sm text-gray-600">{product.rating}</span>
-                  </div>
                 </div>
 
                 <p className="text-gray-600 mb-4 text-sm leading-relaxed">{product.description}</p>
 
-                <div className="mb-4">
-                  <div className="text-xs text-gray-500 mb-2">Materials:</div>
-                  <div className="flex flex-wrap gap-1">
-                    {product.materials.map((material, index) => (
-                      <span key={index} className="bg-pink-100 text-pink-700 px-2 py-1 rounded-full text-xs">
-                        {material}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
                 <div className="flex items-center justify-between">
-                  <div className="text-2xl font-bold text-pink-600">₹{product.price * 83}</div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      addToCart(product);
-                    }}
-                    className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 ${
-                      cart.some(item => item.id === product.id)
-                        ? 'bg-green-500 text-white cursor-default'
-                        : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600'
-                    }`}
-                    disabled={cart.some(item => item.id === product.id)}
-                  >
-                    {cart.some(item => item.id === product.id) ? 'Added to Cart' : 'Add to Cart'}
+                  <button className="px-6 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full font-semibold hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-md hover:shadow-lg">
+                    View Details
                   </button>
                 </div>
               </div>

@@ -71,7 +71,7 @@ const AppContent: React.FC = () => {
         if (element) {
           const offsetTop = element.offsetTop;
           const height = element.offsetHeight;
-          
+
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + height) {
             setActiveSection(section);
             break;
@@ -120,7 +120,7 @@ const AppContent: React.FC = () => {
       category: "Bowls",
       description: "Beautiful ocean-inspired resin dish perfect for jewelry storage",
       materials: ["Epoxy Resin", "Blue Pigments", "Pearl Powder"],
-      customizable: false,
+      customizable: true,
       rating: 4.8,
       reviews: 18
     },
@@ -144,7 +144,7 @@ const AppContent: React.FC = () => {
       category: "Clutch",
       description: "Cosmic-inspired bookmarks with glitter and stars",
       materials: ["Epoxy Resin", "Glitter", "Star Confetti"],
-      customizable: false,
+      customizable: true,
       rating: 4.7,
       reviews: 15
     },
@@ -152,7 +152,7 @@ const AppContent: React.FC = () => {
       id: 5,
       name: "Key Chains",
       price: 55,
-      image: keychainThumbnail ,
+      image: keychainThumbnail,
       category: "KeyChains",
       description: "Honor your beloved pet with a custom resin pendant",
       materials: ["Epoxy Resin", "Pet Hair/Ashes", "Silver Chain"],
@@ -176,10 +176,10 @@ const AppContent: React.FC = () => {
 
   // Get unique categories
   const categories = ['All', ...new Set(products.map(product => product.category))];
-  
+
   // Filter products by category
-  const filteredProducts = selectedCategory === 'All' 
-    ? products 
+  const filteredProducts = selectedCategory === 'All'
+    ? products
     : products.filter(product => product.category === selectedCategory);
 
   const reviews: Review[] = [
@@ -229,7 +229,7 @@ const AppContent: React.FC = () => {
       }
       return [...prevCart, { ...product, quantity: 1 }];
     });
-    
+
     // Track that this product has been added to cart
     if (!addedToCart.includes(product.id)) {
       setAddedToCart(prev => [...prev, product.id]);
@@ -297,7 +297,7 @@ const AppContent: React.FC = () => {
 
   const handleCustomOrderSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Create WhatsApp message with all form details
     const message = `New Custom Order Request:
     
@@ -310,13 +310,13 @@ Color Preferences: ${customOrder.colorPreferences}
 Material Preferences: ${customOrder.materialPreferences}
 Special Instructions: ${customOrder.specialInstructions}
 Inspiration Images: ${customOrder.inspirationImages}`;
-    
+
     // Encode message for URL
     const encodedMessage = encodeURIComponent(message);
-    
+
     // Open WhatsApp with the message (replace with your actual WhatsApp number)
     window.open(`https://wa.me/1234567890?text=${encodedMessage}`, '_blank');
-    
+
     // Reset form
     setCustomOrder({
       name: '',
@@ -334,7 +334,7 @@ Inspiration Images: ${customOrder.inspirationImages}`;
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100">
       {/* Header */}
-      <Header 
+      <Header
         activeSection={activeSection}
         scrollToSection={scrollToSection}
         setIsCartOpen={setIsCartOpen}
@@ -356,7 +356,7 @@ Inspiration Images: ${customOrder.inspirationImages}`;
             <Features />
 
             {/* Products Section */}
-            <Products 
+            <Products
               products={products}
               filteredProducts={filteredProducts}
               categories={categories}
@@ -374,7 +374,7 @@ Inspiration Images: ${customOrder.inspirationImages}`;
             <About />
 
             {/* Contact Section */}
-            <Contact 
+            <Contact
               handleCustomOrderSubmit={handleCustomOrderSubmit}
               customOrder={customOrder}
               handleCustomOrderChange={handleCustomOrderChange}
@@ -388,7 +388,7 @@ Inspiration Images: ${customOrder.inspirationImages}`;
       </Routes>
 
       {/* Cart */}
-      <Cart 
+      <Cart
         cart={cart}
         isCartOpen={isCartOpen}
         setIsCartOpen={setIsCartOpen}
