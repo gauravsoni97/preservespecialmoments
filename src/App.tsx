@@ -15,12 +15,12 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Cart from './components/Cart';
 
-import namePlatesThumbnail from './assets/images/products/nameplate/IMG-20250727-WA0026.jpg';
-import bowlThumbnail from './assets/images/products/bowls/IMG-20250830-WA0059.jpg';
-import bracletteThumbnail from './assets/images/products/braclette/IMG-20250727-WA0072.jpg';
-import clutchThumbnail from './assets/images/products/clutch/IMG-20250727-WA0066.jpg';
-import keychainThumbnail from './assets/images/products/keychain/IMG-20250727-WA0041.jpg';
-import banglesThumbnail from './assets/images/products/bangles/IMG-20250830-WA0010.jpg';
+import namePlatesThumbnail from './assets/images/products/nameplate/nameplate (1).jpg';
+import bowlThumbnail from './assets/images/products/bowls/bowl (1).jpg';
+import bracletteThumbnail from './assets/images/products/braclette/braclette (1).jpg';
+import clutchThumbnail from './assets/images/products/clutch/clutch (1).jpg';
+import keychainThumbnail from './assets/images/products/keychain/keychain (1).jpg';
+import banglesThumbnail from './assets/images/products/bangles/bangle (1).jpg';
 interface Product {
   id: number;
   name: string;
