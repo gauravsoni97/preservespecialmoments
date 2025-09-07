@@ -7,6 +7,7 @@ interface Product {
   name: string;
   price: number;
   image: string;
+  images?: string[]; // Add this line for multiple images
   category: string;
   description: string;
   materials: string[];
@@ -52,27 +53,10 @@ const Products: React.FC<ProductsProps> = ({
           </p>
         </div>
 
-        {/* Category Filters */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map(category => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
-                selectedCategory === category
-                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg'
-                  : 'bg-white text-gray-700 hover:bg-pink-50 border border-pink-200'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product) => (
-            <motion.div 
-              key={product.id} 
+          {products.map((product) => (
+            <motion.div
+              key={product.id}
               whileHover={{ y: -10 }}
               className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer"
               onClick={() => handleProductClick(product)}
@@ -83,8 +67,8 @@ const Products: React.FC<ProductsProps> = ({
                   alt={product.name}
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-           
-              
+
+
               </div>
 
               <div className="p-6">

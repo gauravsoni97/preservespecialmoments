@@ -26,6 +26,7 @@ interface Product {
   name: string;
   price: number;
   image: string;
+  images?: string[]; // Add this line for multiple images
   category: string;
   description: string;
   materials: string[];
@@ -105,6 +106,11 @@ const AppContent: React.FC = () => {
       name: "Bangles",
       price: 45,
       image: banglesThumbnail,
+      images: [
+        banglesThumbnail,
+        "https://images.pexels.com/photos/6195135/pexels-photo-6195135.jpeg?auto=compress&cs=tinysrgb&w=500",
+        "https://images.pexels.com/photos/6195136/pexels-photo-6195136.jpeg?auto=compress&cs=tinysrgb&w=500"
+      ],
       category: "Bangles",
       description: "Preserve precious memories with dried flowers in crystal-clear resin",
       materials: ["Epoxy Resin", "Dried Roses", "Gold Flakes"],
@@ -117,6 +123,11 @@ const AppContent: React.FC = () => {
       name: "Bowls",
       price: 35,
       image: bowlThumbnail,
+      images: [
+        bowlThumbnail,
+        "https://images.pexels.com/photos/6195137/pexels-photo-6195137.jpeg?auto=compress&cs=tinysrgb&w=500",
+        "https://images.pexels.com/photos/6195138/pexels-photo-6195138.jpeg?auto=compress&cs=tinysrgb&w=500"
+      ],
       category: "Bowls",
       description: "Beautiful ocean-inspired resin dish perfect for jewelry storage",
       materials: ["Epoxy Resin", "Blue Pigments", "Pearl Powder"],
@@ -129,6 +140,11 @@ const AppContent: React.FC = () => {
       name: "Braclette",
       price: 85,
       image: bracletteThumbnail,
+      images: [
+        bracletteThumbnail,
+        "https://images.pexels.com/photos/6195139/pexels-photo-6195139.jpeg?auto=compress&cs=tinysrgb&w=500",
+        "https://images.pexels.com/photos/6195140/pexels-photo-6195140.jpeg?auto=compress&cs=tinysrgb&w=500"
+      ],
       category: "Braclette",
       description: "Preserve your wedding flowers and memories in a stunning resin piece",
       materials: ["Epoxy Resin", "Wedding Flowers", "Gold Leaf"],
@@ -141,6 +157,11 @@ const AppContent: React.FC = () => {
       name: "Clutch",
       price: 25,
       image: clutchThumbnail,
+      images: [
+        clutchThumbnail,
+        "https://images.pexels.com/photos/6195141/pexels-photo-6195141.jpeg?auto=compress&cs=tinysrgb&w=500",
+        "https://images.pexels.com/photos/6195142/pexels-photo-6195142.jpeg?auto=compress&cs=tinysrgb&w=500"
+      ],
       category: "Clutch",
       description: "Cosmic-inspired bookmarks with glitter and stars",
       materials: ["Epoxy Resin", "Glitter", "Star Confetti"],
@@ -153,6 +174,11 @@ const AppContent: React.FC = () => {
       name: "Key Chains",
       price: 55,
       image: keychainThumbnail,
+      images: [
+        keychainThumbnail,
+        "https://images.pexels.com/photos/6195143/pexels-photo-6195143.jpeg?auto=compress&cs=tinysrgb&w=500",
+        "https://images.pexels.com/photos/6195144/pexels-photo-6195144.jpeg?auto=compress&cs=tinysrgb&w=500"
+      ],
       category: "KeyChains",
       description: "Honor your beloved pet with a custom resin pendant",
       materials: ["Epoxy Resin", "Pet Hair/Ashes", "Silver Chain"],
@@ -165,6 +191,11 @@ const AppContent: React.FC = () => {
       name: "Name Plates",
       price: 120,
       image: namePlatesThumbnail,
+      images: [
+        namePlatesThumbnail,
+        "https://images.pexels.com/photos/6195145/pexels-photo-6195145.jpeg?auto=compress&cs=tinysrgb&w=500",
+        "https://images.pexels.com/photos/6195146/pexels-photo-6195146.jpeg?auto=compress&cs=tinysrgb&w=500"
+      ],
       category: "NamePlates",
       description: "Large decorative panel with preserved flowers and artistic design",
       materials: ["Epoxy Resin", "Mixed Flowers", "Wood Frame"],

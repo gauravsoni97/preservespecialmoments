@@ -9,6 +9,7 @@ interface Product {
   name: string;
   price: number;
   image: string;
+  images?: string[]; // Add this line for multiple images
   category: string;
   description: string;
   materials: string[];
@@ -51,11 +52,13 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ cart, setCart, se
   });
   
   // Create array of all product images
-  const productImages = [
-    product?.image || '',
-    'https://images.pexels.com/photos/6195135/pexels-photo-6195135.jpeg?auto=compress&cs=tinysrgb&w=500',
-    'https://images.pexels.com/photos/6195136/pexels-photo-6195136.jpeg?auto=compress&cs=tinysrgb&w=500'
-  ];
+  const productImages = product?.images && product.images.length > 0 
+    ? product.images 
+    : [
+        product?.image || '',
+        'https://images.pexels.com/photos/6195135/pexels-photo-6195135.jpeg?auto=compress&cs=tinysrgb&w=500',
+        'https://images.pexels.com/photos/6195136/pexels-photo-6195136.jpeg?auto=compress&cs=tinysrgb&w=500'
+      ];
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -81,7 +84,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ cart, setCart, se
 
   useEffect(() => {
     if (product) {
-      setSelectedImage(product.image);
+      // Set selected image to the first image in the array if available
+      setSelectedImage(product.images && product.images.length > 0 ? product.images[0] : product.image);
       setCustomOrder(prev => ({
         ...prev,
         productName: product.name
