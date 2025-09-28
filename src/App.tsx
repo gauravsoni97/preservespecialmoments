@@ -346,7 +346,7 @@ Inspiration Images: ${customOrder.inspirationImages}`;
     const encodedMessage = encodeURIComponent(message);
 
     // Open WhatsApp with the message (replace with your actual WhatsApp number)
-    window.open(`https://wa.me/1234567890?text=${encodedMessage}`, '_blank');
+    window.open(`https://wa.me/7496013237?text=${encodedMessage}`, '_blank');
 
     // Reset form
     setCustomOrder({
